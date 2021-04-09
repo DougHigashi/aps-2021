@@ -3,8 +3,6 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 
-
-
 export default function App({ navigation }) {
 
     const [form, setForm] = useState({
@@ -23,6 +21,10 @@ export default function App({ navigation }) {
 
             <TouchableOpacity onPress={() => navigation.navigate('Screen')} style={styles.loginBtn}>
                 <Text style={styles.loginText}>LOGIN</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity>
+                <Text style={styles.esqueciSenha}>Se cadastrar</Text>
             </TouchableOpacity>
 
             <StatusBar style="auto" />

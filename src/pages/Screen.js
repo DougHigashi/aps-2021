@@ -2,8 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-
-
+import Map from './Map'
 
 export default function App() {
 
@@ -13,8 +12,7 @@ export default function App() {
     });
     return (
         <View style={styles.container}>
-            <Text>Tela 2</Text>
-
+            <Map />
             <StatusBar style="auto" />
         </View >
     );

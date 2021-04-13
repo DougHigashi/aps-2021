@@ -1,15 +1,34 @@
 import React, { useState,useEffect } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+
+import { database } from './config/Firebase';
 
 export default function Cadastro() {
+
+    const [usuarios, setUsuarios]= useState({});
+    const [user, setUser]= useState('');
+    const [senha, setSenha]= useState('');
+
+    useEffect(() => {
+     database.collection("usuarios").onSnapshot((query)=> { 
+         const list = [];
+        query.forEach((doc)=>{
+            list.push({...doc.data(), id : doc.id});
+        })
+        setUsuarios(list);
+     });
+    },[])
+
+    function addUser(){
+        database.collection("usuarios").add({user,senha});
+    }
+
     return (
         <View style={styles.container}>
-        <TextInput placeholder="Email" style={styles.input} />
-        <TextInput placeholder="Senha" style={styles.input} />
+        <TextInput placeholder="Username"  value={user} onChangeText={setUser} />
+        <TextInput placeholder="Senha"  value={senha} onChangeText={setSenha}/>
 
-        <TouchableOpacity>
-                <Text style={styles.botao}>confirmar</Text>
-            </TouchableOpacity>
+        <Button title='confirmar' onPress={addUser}/>
         </View>
     );
 }

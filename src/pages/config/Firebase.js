@@ -1,14 +1,14 @@
 import * as firebase from 'firebase';
 
 // Optionally import the services that you want to use
-import "firebase/auth";
+//import "firebase/auth";
 //import "firebase/database";
-//import "firebase/firestore";
+import "firebase/firestore";
 //import "firebase/functions";
-import "firebase/storage";
+//import "firebase/storage";
 
 // Initialize Firebase
- const firebaseConfig = {
+ var firebaseConfig = {
     apiKey: "AIzaSyBCtr_Rtk7RyhR_ZtquCDjW6ZJH0Yu_hS0",
     authDomain: "abvd-21.firebaseapp.com",
     databaseURL: "https://abvd-21-default-rtdb.firebaseio.com",

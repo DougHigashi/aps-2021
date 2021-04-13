@@ -1,18 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Button } from 'react-native';
 
-import Map from './Map'
+import Map from '../components/Map'
 
 export default function App() {
-
-    const [form, setForm] = useState({
-        login: "",
-        password: ""
-    });
     return (
         <View style={styles.container}>
             <Map />
+
             <StatusBar style="auto" />
         </View >
     );
@@ -20,7 +16,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 2,
         backgroundColor: '#003f5c',
         alignItems: 'center',
         justifyContent: 'center',

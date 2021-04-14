@@ -8,6 +8,8 @@ import * as Location from 'expo-location';
 export default function Map() {
     Location.requestPermissionsAsync()
 
+    let isMounted = false;
+
     const [location, setLocation] = useState({
         latitude: 37.78825,
         longitude: -122.4324,
@@ -16,16 +18,23 @@ export default function Map() {
     })
 
     useEffect(() => {
+        isMounted = true;
         navigator.geolocation.getCurrentPosition(
             posicao => {
-                setLocation({
-                    latitude: posicao.coords.latitude,
-                    longitude: posicao.coords.longitude,
-                    latitudeDelta: 0.014,
-                    longitudeDelta: 0.014
-                })
+                if (isMounted) {
+                    setLocation({
+                        latitude: posicao.coords.latitude,
+                        longitude: posicao.coords.longitude,
+                        latitudeDelta: 0.014,
+                        longitudeDelta: 0.014
+                    })
+                }
             }
+
         );
+        return () => { isMounted = false };
+
+
     }, []
     );
 

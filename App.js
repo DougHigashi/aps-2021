@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -17,6 +17,7 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="Map" component={Screen} options={{ headerShown: true }} />
+        <Stack.Screen name="Cadastro" component={Cadastro} options={{ headerShown: true }} />
       </Stack.Navigator>
     </NavigationContainer >
   );

@@ -23,8 +23,8 @@ export default function App({ navigation }) {
                 <Text style={styles.loginText}>LOGIN</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity>
-                <Text style={styles.esqueciSenha}>Se cadastrar</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Screen')} style={styles.loginBtn}>
+                <Text style={styles.loginText}>LOGIN</Text>
             </TouchableOpacity>
 
             <StatusBar style="auto" />

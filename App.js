@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import Login from './src/pages/Login'
 import Screen from './src/pages/Screen'
+import Cadastro from './src/pages/Cadastro'
 
 const Stack = createStackNavigator();
 

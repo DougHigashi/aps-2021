@@ -14,10 +14,9 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Login" component={Login} ></Stack.Screen>
-        <Stack.Screen name="Screen" component={Screen}></Stack.Screen>
-        <Stack.Screen name="Cadastro" component={Cadastro}></Stack.Screen>
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+        <Stack.Screen name="Map" component={Screen} options={{ headerShown: true }} />
       </Stack.Navigator>
     </NavigationContainer >
   );

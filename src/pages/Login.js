@@ -19,8 +19,8 @@ export default function App({ navigation }) {
                 <Text style={styles.esqueciSenha}>Esqueci minha senha</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
-                <Text style={styles.esqueciSenha}>Se cadastrar</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Map')} style={styles.loginBtn}>
+                <Text style={styles.loginText}>LOGIN</Text>
             </TouchableOpacity>
 
             <TouchableOpacity onPress={() => navigation.navigate('Screen')} style={styles.loginBtn}>

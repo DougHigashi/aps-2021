@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
 
 import { database } from './config/Firebase';
 
@@ -8,6 +8,7 @@ export default function Cadastro() {
     const [usuarios, setUsuarios] = useState({});
     const [user, setUser] = useState('');
     const [senha, setSenha] = useState('');
+    var existe = false;
 
     useEffect(() => {
         database.collection("usuarios").onSnapshot((query) => {
@@ -20,7 +21,17 @@ export default function Cadastro() {
     }, [])
 
     function addUser() {
-        database.collection("usuarios").add({ user, senha });
+        usuarios.forEach((usuario)=>{
+        if(usuario.user == user){
+            existe=true;
+        }});
+        if(existe){
+            Alert.alert("Username Indisponivel","",[{text: "OK"}])
+        }
+        else{
+            database.collection("usuarios").add({ user, senha });
+            Alert.alert("Sucesso!","Cadastrado com sucesso",[{text: "OK"}])
+        }
     }
 
     return (

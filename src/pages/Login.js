@@ -1,28 +1,35 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-
+import firebase from 'firebase';
 
 export default function App({ navigation }) {
 
-    const [form, setForm] = useState({
-        login: "",
-        password: ""
-    });
+    const [login, setLogin] = useState('');
+    const [password, setPassword] = useState('');
+    
+    
+    function authentication(){
+        firebase.auth().signInWithEmailAndPassword(login, password)
+        .then(()=>navigation.navigate('Chat')
+        ).cath(function (error){
+            var errorCode = error.Code;
+            var errorMessage = error.Message;
+            alert(errorCode, errorMessage);
+        });
+    }
+
+
     return (
         <View style={styles.container}>
             <Text style={styles.logo}>Faça Login</Text>
-            <TextInput placeholder="Login" style={styles.input} />
-            <TextInput placeholder="Senha" style={styles.input} />
-
-            <TouchableOpacity>
-                <Text style={styles.esqueciSenha}>Esqueci minha senha</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => navigation.navigate('Map')} style={styles.loginBtn}>
+            <TextInput placeholder="Login" style={styles.input} onChangeText={login =>setLogin(login)} value={login}/>
+            <TextInput placeholder="Senha" style={styles.input} onChangeText={password =>setPassword(password)} value={password}/>
+            
+            <TouchableOpacity onPress={()=>{authentication()}} style={styles.loginBtn}>
                 <Text style={styles.loginText}>LOGIN</Text>
             </TouchableOpacity>
-
+            
             <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
                 <Text style={styles.esqueciSenha}>Se cadastrar</Text>
             </TouchableOpacity>

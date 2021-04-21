@@ -1,32 +1,33 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { firebase } from '../config/Firebase';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
+import firebase from '../config/Firebase';
 
-export default function Cadastro() {
+export default function Cadastro({ navigation }) {
 
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
 
-    function cadastrar(){
-      
-    firebase.auth().createUserWithEmailAndPassword(email, senha)
-    .then(() => {
-        alert('Cadastrado com Sucesso!');
-        navigation.navigate('Login');
-    })
-     .catch((error) => {
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    alert(errorCode, errorMessage);
-    alert('Ocorreu uma falha!');
-    });}
+    async function cadastrar() {
+
+        await firebase.auth().createUserWithEmailAndPassword(email, senha)
+            .then(() => {
+                alert('Cadastrado com Sucesso!');
+                navigation.navigate('Login');
+            })
+            .catch((error) => {
+                console.log(error.message)
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                Alert.alert("Ops!", errorMessage);
+            });
+    }
 
     return (
         <View style={styles.container}>
-            <TextInput placeholder="Username" style={styles.input} onChangeText={email =>setEmail(email)} value={email} />
-            <TextInput placeholder="Senha" style={styles.input} onChangeText={senha=>setSenha(senha)} value={senha}/>
+            <TextInput placeholder="Username" style={styles.input} onChangeText={email => setEmail(email)} value={email} />
+            <TextInput placeholder="Senha" style={styles.input} secureTextEntry={true} onChangeText={senha => setSenha(senha)} value={senha} />
 
-            <TouchableOpacity onPress={()=>{cadastrar()}}style={styles.botao}>
+            <TouchableOpacity onPress={() => { cadastrar() }} style={styles.botao}>
                 <Text style={styles.loginText}>Cadastrar-se</Text>
             </TouchableOpacity>
         </View>

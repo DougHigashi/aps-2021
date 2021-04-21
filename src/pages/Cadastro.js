@@ -1,45 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import { Button, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
-
-import { database } from './config/Firebase';
+import React, { useState } from 'react';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { firebase } from '../config/Firebase';
 
 export default function Cadastro() {
 
-    const [usuarios, setUsuarios] = useState({});
-    const [user, setUser] = useState('');
+    const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
-    var existe = false;
 
-    useEffect(() => {
-        database.collection("usuarios").onSnapshot((query) => {
-            const list = [];
-            query.forEach((doc) => {
-                list.push({ ...doc.data(), id: doc.id });
-            })
-            setUsuarios(list);
-        });
-    }, [])
-
-    function addUser() {
-        usuarios.forEach((usuario)=>{
-        if(usuario.user == user){
-            existe=true;
-        }});
-        if(existe){
-            Alert.alert("Username Indisponivel","",[{text: "OK"}])
-        }
-        else{
-            database.collection("usuarios").add({ user, senha });
-            Alert.alert("Sucesso!","Cadastrado com sucesso",[{text: "OK"}])
-        }
-    }
+    function cadastrar(){
+      
+    firebase.auth().createUserWithEmailAndPassword(email, senha)
+    .then(() => {
+        alert('Cadastrado com Sucesso!');
+        navigation.navigate('Login');
+    })
+     .catch((error) => {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    alert(errorCode, errorMessage);
+    alert('Ocorreu uma falha!');
+    });}
 
     return (
         <View style={styles.container}>
-            <TextInput placeholder="Username" style={styles.input} value={user} onChangeText={setUser} />
-            <TextInput placeholder="Senha" style={styles.input} value={senha} onChangeText={setSenha} />
+            <TextInput placeholder="Username" style={styles.input} onChangeText={email =>setEmail(email)} value={email} />
+            <TextInput placeholder="Senha" style={styles.input} onChangeText={senha=>setSenha(senha)} value={senha}/>
 
-            <TouchableOpacity onPress={addUser} style={styles.botao}>
+            <TouchableOpacity onPress={()=>{cadastrar()}}style={styles.botao}>
                 <Text style={styles.loginText}>Cadastrar-se</Text>
             </TouchableOpacity>
         </View>

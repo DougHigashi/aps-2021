@@ -44,7 +44,7 @@ export default function App({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#003f5c',
+        backgroundColor: '#F7F7F7',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -52,23 +52,23 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 30,
         marginBottom: 40,
-        color: "#fb5b5a",
+        color: "#308C30",
     },
     input: {
         width: '70%',
         marginBottom: 20,
         padding: 10,
         height: 50,
-        backgroundColor: '#465881',
+        backgroundColor: 'white',
         borderRadius: 25,
         justifyContent: 'center',
     },
     esqueciSenha: {
-        color: 'white',
+        color: '#308C30',
     },
     loginBtn: {
         width: '70%',
-        backgroundColor: '#fb5b5a',
+        backgroundColor: '#308C30',
         height: 50,
         marginTop: 40,
         marginBottom: 20,

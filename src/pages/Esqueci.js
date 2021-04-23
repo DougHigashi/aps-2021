@@ -22,10 +22,11 @@ export default function Esqueci({ navigation }) {
 
     return (
         <View style={styles.container}>
+             <Text style={styles.logo}>Redefinir senha</Text>
             <TextInput placeholder="Email" style={styles.input} onChangeText={email => setEmail(email)} value={email} />
            
             <TouchableOpacity onPress={() => { confirma() }} style={styles.botao}>
-                <Text style={styles.loginText}>Confirma</Text>
+                <Text style={styles.loginText}>Enviar email para redefinir</Text>
             </TouchableOpacity>
 
             <TouchableOpacity onPress={() => navigation.navigate('Login') } style={styles.botao}>
@@ -39,9 +40,15 @@ export default function Esqueci({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#003f5c',
+        backgroundColor: '#F7F7F7',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    logo: {
+        fontWeight: 'bold',
+        fontSize: 30,
+        marginBottom: 40,
+        color: "#308C30",
     },
     loginText: {
         color: 'white'
@@ -49,7 +56,7 @@ const styles = StyleSheet.create({
     botao: {
         color: 'white',
         width: '70%',
-        backgroundColor: '#fb5b5a',
+        backgroundColor: '#308C30',
         height: 50,
         marginTop: 40,
         marginBottom: 20,
@@ -62,7 +69,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         padding: 10,
         height: 50,
-        backgroundColor: '#465881',
+        backgroundColor: 'white',
         borderRadius: 25,
         justifyContent: 'center',
     }

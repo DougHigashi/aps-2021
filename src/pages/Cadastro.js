@@ -24,11 +24,16 @@ export default function Cadastro({ navigation }) {
 
     return (
         <View style={styles.container}>
+             <Text style={styles.logo}>Cadastre-se</Text>
             <TextInput placeholder="Email" style={styles.input} onChangeText={email => setEmail(email)} value={email} />
             <TextInput placeholder="Senha" style={styles.input} secureTextEntry={true} onChangeText={senha => setSenha(senha)} value={senha} />
 
             <TouchableOpacity onPress={() => { cadastrar() }} style={styles.botao}>
-                <Text style={styles.loginText}>Cadastrar-se</Text>
+                <Text style={styles.loginText}>Salvar</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => navigation.navigate('Login') } style={styles.botao}>
+                <Text style={styles.loginText}>Voltar</Text>
             </TouchableOpacity>
         </View>
     );
@@ -37,17 +42,23 @@ export default function Cadastro({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#003f5c',
+        backgroundColor: '#F7F7F7',
         alignItems: 'center',
         justifyContent: 'center',
     },
     loginText: {
         color: 'white'
     },
+    logo: {
+        fontWeight: 'bold',
+        fontSize: 30,
+        marginBottom: 40,
+        color: "#308C30",
+    },
     botao: {
         color: 'white',
         width: '70%',
-        backgroundColor: '#fb5b5a',
+        backgroundColor: '#308C30',
         height: 50,
         marginTop: 40,
         marginBottom: 20,
@@ -60,7 +71,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         padding: 10,
         height: 50,
-        backgroundColor: '#465881',
+        backgroundColor: 'white',
         borderRadius: 25,
         justifyContent: 'center',
     }

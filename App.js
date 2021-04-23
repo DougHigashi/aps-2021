@@ -8,6 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from './src/pages/Login'
 import Screen from './src/pages/Screen'
 import Cadastro from './src/pages/Cadastro'
+import Esqueci from './src/pages/Esqueci'
 import Chat from './src/pages/Chat'
 
 const Stack = createStackNavigator();
@@ -19,6 +20,7 @@ export default function App() {
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="Map" component={Screen} options={{ headerShown: true }} />
         <Stack.Screen name="Cadastro" component={Cadastro} options={{ headerShown: true }} />
+        <Stack.Screen name="Esqueci" component={Esqueci} options={{ headerShown: true }} />
         <Stack.Screen name="Chat" component={Chat} options={{ headerShown: true }} />
       </Stack.Navigator>
     </NavigationContainer >

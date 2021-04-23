@@ -22,7 +22,7 @@ export default function App({ navigation }) {
     return (
         <View style={styles.container}>
             <Text style={styles.logo}>Faça Login</Text>
-            <TextInput placeholder="Login" style={styles.input} onChangeText={login => setLogin(login)} value={login} />
+            <TextInput placeholder="Email" style={styles.input} onChangeText={login => setLogin(login)} value={login} />
             <TextInput placeholder="Senha" style={styles.input} secureTextEntry={true} onChangeText={password => setPassword(password)} value={password} />
 
             <TouchableOpacity onPress={() => { authentication() }} style={styles.loginBtn}>
@@ -33,7 +33,9 @@ export default function App({ navigation }) {
                 <Text style={styles.esqueciSenha}>Se cadastrar</Text>
             </TouchableOpacity>
 
-
+            <TouchableOpacity onPress={() => navigation.navigate('Esqueci')}>
+                <Text style={styles.esqueciSenha}>Esqueci minha senha</Text>
+            </TouchableOpacity> 
             <StatusBar style="auto" />
         </View >
     );

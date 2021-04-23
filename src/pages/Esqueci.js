@@ -2,17 +2,15 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
 import firebase from '../config/Firebase';
 
-export default function Cadastro({ navigation }) {
+export default function Esqueci({ navigation }) {
 
     const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
 
-    async function cadastrar() {
+    async function confirma() {
 
-        await firebase.auth().createUserWithEmailAndPassword(email, senha)
+        await firebase.auth().sendPasswordResetEmail(email)
             .then(() => {
-                Alert.alert('Cadastrado com Sucesso!');
-                navigation.navigate('Login');
+                Alert.alert('Email enviado!');
             })
             .catch((error) => {
                 console.log(error.message)
@@ -25,11 +23,15 @@ export default function Cadastro({ navigation }) {
     return (
         <View style={styles.container}>
             <TextInput placeholder="Email" style={styles.input} onChangeText={email => setEmail(email)} value={email} />
-            <TextInput placeholder="Senha" style={styles.input} secureTextEntry={true} onChangeText={senha => setSenha(senha)} value={senha} />
-
-            <TouchableOpacity onPress={() => { cadastrar() }} style={styles.botao}>
-                <Text style={styles.loginText}>Cadastrar-se</Text>
+           
+            <TouchableOpacity onPress={() => { confirma() }} style={styles.botao}>
+                <Text style={styles.loginText}>Confirma</Text>
             </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => navigation.navigate('Login') } style={styles.botao}>
+                <Text style={styles.loginText}>Voltar</Text>
+            </TouchableOpacity>
+
         </View>
     );
 }

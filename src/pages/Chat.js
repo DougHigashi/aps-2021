@@ -10,7 +10,8 @@ export default function Chat({ navigation }) {
         .then(
             ()=>navigation.navigate('Login')
           ).catch((error) => {
-            alert('Ocorreu um erro');
+            console.log(error)
+            Alert.alert("Ops!", error.message);
           });
     }
 

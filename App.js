@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 
-import { StyleSheet } from 'react-native';
+import { StyleSheet, LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -12,6 +12,7 @@ import Esqueci from './src/pages/Esqueci'
 import Chat from './src/pages/Chat'
 
 const Stack = createStackNavigator();
+LogBox.ignoreLogs(['Setting a timer']);
 
 export default function App() {
   return (

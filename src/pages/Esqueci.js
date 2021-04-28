@@ -40,7 +40,7 @@ export default function Esqueci({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F7F7F7',
+        backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         padding: 10,
         height: 50,
-        backgroundColor: 'white',
+        backgroundColor: '#F7F7F7',
         borderRadius: 25,
         justifyContent: 'center',
     }

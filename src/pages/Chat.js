@@ -1,24 +1,25 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import firebase from 'firebase';
+import firebase from '../config/Firebase';
 
 export default function Chat({ navigation }) {
 
-    
-    function logOut(){
+
+
+    function logOut() {
         firebase.auth().signOut()
-        .then(
-            ()=>navigation.navigate('Login')
-          ).catch((error) => {
-            alert('Ocorreu um erro');
-          });
+            .then(
+                () => navigation.navigate('Login')
+            ).catch((error) => {
+                alert('Ocorreu um erro');
+            });
     }
 
     return (
         <View style={styles.container}>
             <Text style={styles.logo}>Iniciar Chat</Text>
-            
-            <TouchableOpacity onPress={()=>{logOut()}} style={styles.loginBtn}>
+
+            <TouchableOpacity onPress={() => { logOut() }} style={styles.loginBtn}>
                 <Text style={styles.loginText}>Deslogar</Text>
             </TouchableOpacity>
 
@@ -33,14 +34,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-
     logo: {
         fontWeight: 'bold',
         fontSize: 30,
         marginBottom: 40,
         color: "#fb5b5a",
     },
-
     loginBtn: {
         width: '70%',
         backgroundColor: '#fb5b5a',
@@ -51,7 +50,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 25
     },
-
     loginText: {
         color: 'white'
     }

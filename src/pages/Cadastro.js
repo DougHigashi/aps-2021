@@ -7,6 +7,8 @@ export default function Cadastro({ navigation }) {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
 
+
+
     async function cadastrar() {
 
         await firebase.auth().createUserWithEmailAndPassword(email, senha)
@@ -15,16 +17,23 @@ export default function Cadastro({ navigation }) {
                 navigation.navigate('Login');
             })
             .catch((error) => {
-                console.log(error.message)
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                Alert.alert("Ops!", errorMessage);
+                console.log(error.code);
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        Alert.alert('Email em uso', 'Este email já está cadastrado');
+                        break;
+                    case 'auth/invalid-email':
+                        Alert.alert('Email inválido', 'Verifique o email e tente novamente')
+                    default:
+                        Alert.alert('Ops!', 'Verifique as informações inseridas e tente novamente')
+                }
             });
     }
 
     return (
         <View style={styles.container}>
-            <TextInput placeholder="Username" style={styles.input} onChangeText={email => setEmail(email)} value={email} />
+            <Text style={styles.logo}>Cadastre-se</Text>
+            <TextInput placeholder="Email" style={styles.input} onChangeText={email => setEmail(email)} value={email} />
             <TextInput placeholder="Senha" style={styles.input} secureTextEntry={true} onChangeText={senha => setSenha(senha)} value={senha} />
 
             <TouchableOpacity onPress={() => { cadastrar() }} style={styles.botao}>
@@ -40,6 +49,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#003f5c',
         alignItems: 'center',
         justifyContent: 'center',
+        display: 'flex'
     },
     loginText: {
         color: 'white'
@@ -63,5 +73,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#465881',
         borderRadius: 25,
         justifyContent: 'center',
+    },
+    logo: {
+        fontWeight: 'bold',
+        fontSize: 30,
+        marginBottom: 40,
+        color: "#fb5b5a",
     }
 });

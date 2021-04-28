@@ -8,21 +8,34 @@ export default function App({ navigation }) {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
 
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            console.log(user)
+        }
+    });
 
-    function authentication() {
+    async function authentication() {
 
-        firebase.auth().signInWithEmailAndPassword(login, password)
+        await firebase.auth().signInWithEmailAndPassword(login, password)
             .then(() => navigation.navigate('Chat')
             ).catch((error) => {
-                console.log(error)
-                Alert.alert("Ops!", error.message);
+                switch (error.code) {
+                    case 'auth/wrong-password':
+                        Alert.alert('Senha incorreta', 'Verifique a senha digitada e tente novamente')
+                        break;
+                    case 'auth/user-not-found':
+                        Alert.alert('Usuário não encontrado', 'Verifique o email digitado e tente novamente')
+                        break;
+                    default:
+                        Alert.alert('Ops!', 'Verifique as informações inseridas e tente novamente')
+                }
             });
     }
 
     return (
         <View style={styles.container}>
             <Text style={styles.logo}>Faça Login</Text>
-            <TextInput placeholder="Login" style={styles.input} onChangeText={login => setLogin(login)} value={login} />
+            <TextInput placeholder="Email" style={styles.input} onChangeText={login => setLogin(login)} value={login} />
             <TextInput placeholder="Senha" style={styles.input} secureTextEntry={true} onChangeText={password => setPassword(password)} value={password} />
 
             <TouchableOpacity onPress={() => { authentication() }} style={styles.loginBtn}>

@@ -7,21 +7,35 @@ export default function App({ navigation }) {
 
     const [user, setLogin] = useState('');
     const [password, setPassword] = useState('');
-    
 
-    function authentication() {
 
-        firebase.auth().signInWithEmailAndPassword(user, password)
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            console.log(user)
+        }
+    });
+
+    async function authentication() {
+
+        await firebase.auth().signInWithEmailAndPassword(login, password)
             .then(() => navigation.navigate('Chat')
             ).catch((error) => {
-                console.log(error)
-                Alert.alert("Ops!", error.message);
+                switch (error.code) {
+                    case 'auth/wrong-password':
+                        Alert.alert('Senha incorreta', 'Verifique a senha digitada e tente novamente')
+                        break;
+                    case 'auth/user-not-found':
+                        Alert.alert('Usuário não encontrado', 'Verifique o email digitado e tente novamente')
+                        break;
+                    default:
+                        Alert.alert('Ops!', 'Verifique as informações inseridas e tente novamente')
+                }
             });
     }
 
     return (
         <View style={styles.container}>
-            <Image source={require('../assets/logo.png')} style={styles.logo}/>
+            <Image source={require('../assets/logo.png')} style={styles.logo} />
             <TextInput placeholder="Email" style={styles.input} onChangeText={user => setLogin(user)} value={user} />
             <TextInput placeholder="Senha" style={styles.input} secureTextEntry={true} onChangeText={password => setPassword(password)} value={password} />
 
@@ -35,7 +49,7 @@ export default function App({ navigation }) {
 
             <TouchableOpacity onPress={() => navigation.navigate('Esqueci')}>
                 <Text style={styles.esqueciSenha}>Esqueci minha senha</Text>
-            </TouchableOpacity> 
+            </TouchableOpacity>
             <StatusBar style="auto" />
         </View >
     );

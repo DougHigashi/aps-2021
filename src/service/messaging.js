@@ -1,9 +1,8 @@
-import React from 'react';
 import { auth, db, firebase } from '../config/Firebase'
 
 const MessagingService = {
   async getMessages() {
-    
+
     return db
       .collection('messages')
       .then(messages => {
@@ -15,11 +14,11 @@ const MessagingService = {
       })
   },
 
-  observeMessages (callback) {
+  observeMessages(callback) {
     db.collection('messages').onSnapshot(callback)
   },
 
-  async sendMessage (message) {
+  async sendMessage(message) {
     const user = auth().currentUser
 
     db.collection('messages').add({

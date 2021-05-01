@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
-import firebase from '../config/Firebase';
+import firebase, {database} from '../config/Firebase';
 
 export default function Cadastro({ navigation }) {
 
+    const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
 
@@ -11,7 +12,8 @@ export default function Cadastro({ navigation }) {
 
         await firebase.auth().createUserWithEmailAndPassword(email, senha)
             .then(() => {
-                Alert.alert('Cadastrado com Sucesso!');
+                Alert.alert('Cadastrado com Sucesso!')
+                database.collection("usuarios").add({ nome, email })
                 navigation.navigate('Login');
             })
             .catch((error) => {
@@ -25,6 +27,7 @@ export default function Cadastro({ navigation }) {
     return (
         <View style={styles.container}>
              <Text style={styles.logo}>Cadastre-se</Text>
+             <TextInput placeholder="Nome" style={styles.input} onChangeText={nome => setNome(nome)} value={nome} />
             <TextInput placeholder="Email" style={styles.input} onChangeText={email => setEmail(email)} value={email} />
             <TextInput placeholder="Senha" style={styles.input} secureTextEntry={true} onChangeText={senha => setSenha(senha)} value={senha} />
 

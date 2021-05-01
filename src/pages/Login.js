@@ -1,19 +1,41 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Alert, Image, LogBox } from 'react-native';
-import firebase from '../config/Firebase';
+import firebase, {database} from '../config/Firebase';
 
+export var setUsuario;
 export default function App({ navigation }) {
 
-    const [user, setLogin] = useState('');
+    const [usuarios, setUsuarios] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    useEffect(() => {
+        database.collection("usuarios").onSnapshot((query) => {
+            const list = [];
+            query.forEach((doc) => {
+                list.push({ ...doc.data(), id: doc.id });
+            })
+            setUsuarios(list);
+        });
+    }, [])
     
+    function getUsuario() {
+        usuarios.forEach((usuario)=>{
+            if(usuario.email == email){
+                setUsuario = usuario;
+            }
+        })
+    }
 
     function authentication() {
 
-        firebase.auth().signInWithEmailAndPassword(user, password)
-            .then(() => navigation.navigate('Chat')
-            ).catch((error) => {
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(() =>{
+                getUsuario();
+                console.log(setUsuario);
+               navigation.navigate('Chat');
+            }).catch((error) => {
                 console.log(error)
                 Alert.alert("Ops!", error.message);
             });
@@ -22,7 +44,7 @@ export default function App({ navigation }) {
     return (
         <View style={styles.container}>
             <Image source={require('../assets/logo.png')} style={styles.logo}/>
-            <TextInput placeholder="Email" style={styles.input} onChangeText={user => setLogin(user)} value={user} />
+            <TextInput placeholder="Email" style={styles.input} onChangeText={email => setEmail(email)} value={email} />
             <TextInput placeholder="Senha" style={styles.input} secureTextEntry={true} onChangeText={password => setPassword(password)} value={password} />
 
             <TouchableOpacity onPress={() => { authentication() }} style={styles.loginBtn}>

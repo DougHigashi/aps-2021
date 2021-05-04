@@ -19,14 +19,9 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-<<<<<<< HEAD
-        <Stack.Screen name="Map" component={Screen} options={{ headerShown: true }} />
-        <Stack.Screen name="Cadastro" component={Cadastro} options={{ headerShown: true }} />
         <Stack.Screen name="Esqueci" component={Esqueci} options={{ headerShown: true }} />
-=======
         <Stack.Screen name="Location" component={Location} options={{ headerShown: true }} />
         <Stack.Screen name="Cadastro" component={Cadastro} options={{ headerShown: false }} />
->>>>>>> master
         <Stack.Screen name="Chat" component={Chat} options={{ headerShown: true }} />
       </Stack.Navigator>
     </NavigationContainer >

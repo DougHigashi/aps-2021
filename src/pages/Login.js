@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Alert, Image, LogBox } from 'react-native';
-import firebase, {database} from '../config/Firebase';
+import firebase, { database } from '../config/Firebase';
 
 export var setUsuario;
 export default function App({ navigation }) {
@@ -19,10 +19,10 @@ export default function App({ navigation }) {
             setUsuarios(list);
         });
     }, [])
-    
+
     function getUsuario() {
-        usuarios.forEach((usuario)=>{
-            if(usuario.email == email){
+        usuarios.forEach((usuario) => {
+            if (usuario.email == email) {
                 setUsuario = usuario;
             }
         })
@@ -31,10 +31,10 @@ export default function App({ navigation }) {
     function authentication() {
 
         firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(() =>{
+            .then(() => {
                 getUsuario();
                 console.log(setUsuario);
-               navigation.navigate('Chat');
+                navigation.navigate('Tabs');
             }).catch((error) => {
                 console.log(error)
                 Alert.alert("Ops!", error.message);
@@ -43,7 +43,7 @@ export default function App({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Image source={require('../assets/logo.png')} style={styles.logo}/>
+            <Image source={require('../assets/logo.png')} style={styles.logo} />
             <TextInput placeholder="Email" style={styles.input} onChangeText={email => setEmail(email)} value={email} />
             <TextInput placeholder="Senha" style={styles.input} secureTextEntry={true} onChangeText={password => setPassword(password)} value={password} />
 
@@ -57,7 +57,7 @@ export default function App({ navigation }) {
 
             <TouchableOpacity onPress={() => navigation.navigate('Esqueci')}>
                 <Text style={styles.esqueciSenha}>Esqueci minha senha</Text>
-            </TouchableOpacity> 
+            </TouchableOpacity>
             <StatusBar style="auto" />
         </View >
     );

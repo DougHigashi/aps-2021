@@ -33,7 +33,6 @@ export default function App({ navigation }) {
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then(() => {
                 getUsuario();
-                console.log(setUsuario);
                 navigation.navigate('Tabs');
             }).catch((error) => {
                 console.log(error)

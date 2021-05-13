@@ -41,8 +41,8 @@ const Tabs = () => {
         activeTintColor: '#308C30',
         inactiveTintColor: 'gray',
       }}>
-      <Tab.Screen name="Location" component={Location} />
       <Tab.Screen name="Chat" component={Chat} />
+      <Tab.Screen name="Location" component={Location} />
     </Tab.Navigator>
   );
 }

@@ -1,98 +1,77 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useCallback } from 'react';
 
 import { View, Text } from 'react-native';
 
-import { database } from '../config/Firebase';
+import { database, auth } from '../config/Firebase';
 
-import { GiftedChat, Bubble } from 'react-native-gifted-chat';
+import { GiftedChat, Bubble, SystemMessage } from 'react-native-gifted-chat';
 
 import { setUsuario } from '../pages/Login'
+import { NavigationContainer } from '@react-navigation/native';
+
+import { AntDesign } from '@expo/vector-icons'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
-function Chat() {
+function Chat({ navigation }) {
+0
+    useLayoutEffect(()=>{
+        navigation.setOptions({
+            headerRight: () => (
+                <TouchableOpacity onPress={signOut}>
+                <AntDesign name="logout" size={24} color="black"/>
+                </TouchableOpacity>
+            )
+        }) 
+    }, [])
 
-    var user = setUsuario;
+    const signOut = () => {
+        auth.signOut().then(()=>{
+            navigation.replace('Login')
+        }).catch((error)=>{
+
+        });
+    }
 
     const [messages, setMessages] = useState([]);
 
-    useEffect(() => {
+    useEffect(()=>{
+       database.collection('groupChat').orderBy('createdAt', 'desc')
+       .onSnapshot( snapshot => setMessages(
+           snapshot.docs.map(doc => ({
+            _id: doc.data()._id,
+            text: doc.data().text,
+            createdAt: doc.data().createdAt.toDate(),
+            user: doc.data().user
+           }))
+       ))
+    },[])
 
-        console.log(user);
+    const onSend = useCallback((messages = []) =>{
+        setMessages(previousMessage => GiftedChat.append(previousMessage, messages))
+        const{
+            id,
+            createdAt,
+            text,
+            user
+        } = messages[0]
+        database.collection('groupChat').add(messages[0])
 
-        database.collection('groupChat')
+    },[])
 
-            .orderBy('createdAt', 'desc')
-
-            .onSnapshot(function (doc) {
-
-                let receivedMessages = [];
-
-                doc.docs.map(doc => {
-
-                    receivedMessages.push({
-
-                        _id: doc.id,
-
-                        ...doc.data()
-                    });
-                });
-
-                setMessages(GiftedChat.append(messages, receivedMessages));
-            });
-    }, [user]);
-
-    function onSend([messages]) {
-
-        database.collection('groupChat')
-
-            .add(messages);
-
-    } function renderBubble(props) {
-
-        return (
-
-            <View>
-
-                <Text style={{ left: 90 }}>{props.currentMessage.user.nome}</Text>
-
-                <Bubble
-
-                    {...props}
-
-                />
-
-            </View>
-
-        );
-
-    }
+    var user = setUsuario;
 
     return (
-
         <GiftedChat
-
-            dateFormat={'DD-MM-YYYY'}
-
-            timeFormat={'h:mm'}
-
-            renderBubble={renderBubble}
-
-            messages={messages}
-
-            onSend={messages => onSend(messages)}
-
-            user={{
-
-                id: user.id,
-
-                name: user.nome,
-
-            }}
-
+        messages={messages}
+        onSend={messages => onSend(messages)}
+        user={{
+            _id: user.id,
+            name: user.nome,
+        }}
         />
-
-    );
+    )
 
 }
 

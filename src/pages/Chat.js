@@ -1,14 +1,8 @@
 
 import React, { useState, useEffect, useLayoutEffect, useCallback } from 'react';
-
-import { View, Text } from 'react-native';
-
 import { database, auth } from '../config/Firebase';
 
-import { GiftedChat, Bubble, SystemMessage } from 'react-native-gifted-chat';
-
-import { AntDesign } from '@expo/vector-icons'
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { GiftedChat, Bubble,  } from 'react-native-gifted-chat';
 
 
 function Chat({ navigation }) {
@@ -38,14 +32,6 @@ function Chat({ navigation }) {
         database.collection('groupChat').add(messages[0])
 
     },[])
-
-    const signOut = () => {
-        auth.signOut().then(()=>{
-            navigation.replace('Login')
-        }).catch((error)=>{
-
-        });
-    }
     
     function renderBubble (props) {
         return (

@@ -29,8 +29,8 @@ export default function Esqueci({ navigation }) {
                 <Text style={styles.loginText}>Enviar email para redefinir</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => navigation.navigate('Login') } style={styles.botao}>
-                <Text style={styles.loginText}>Voltar</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                <Text style={styles.voltar}>Voltar</Text>
             </TouchableOpacity>
 
         </View>
@@ -43,6 +43,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    voltar: {
+        color: '#308C30',
     },
     logo: {
         fontWeight: 'bold',

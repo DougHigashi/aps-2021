@@ -37,8 +37,8 @@ export default function Cadastro({ navigation }) {
                 <Text style={styles.loginText}>Salvar</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => navigation.navigate('Login') } style={styles.botao}>
-                <Text style={styles.loginText}>Voltar</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                <Text style={styles.voltar}>Voltar</Text>
             </TouchableOpacity>
         </View>
     );
@@ -53,6 +53,9 @@ const styles = StyleSheet.create({
     },
     loginText: {
         color: 'white'
+    },
+    voltar: {
+        color: '#308C30',
     },
     logo: {
         fontWeight: 'bold',

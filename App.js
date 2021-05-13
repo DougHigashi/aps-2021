@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import React from 'react';
 
 import { LogBox } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useBackButton } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -12,6 +12,7 @@ import Location from './src/pages/Location'
 import Cadastro from './src/pages/Cadastro'
 import Esqueci from './src/pages/Esqueci'
 import Chat from './src/pages/Chat'
+import Profile from './src/pages/Profile'
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -34,6 +35,9 @@ const Tabs = () => {
           } else if (route.name === 'Chat') {
             iconName = focused ? 'chatbox-ellipses-outline' : 'chatbox-ellipses-outline';
           }
+          else if (route.name === 'Profile') {
+          iconName = focused ? 'person' : 'person';
+        }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
       })}
@@ -43,6 +47,7 @@ const Tabs = () => {
       }}>
       <Tab.Screen name="Chat" component={Chat} />
       <Tab.Screen name="Location" component={Location} />
+      <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );
 }

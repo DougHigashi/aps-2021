@@ -7,32 +7,11 @@ import { database, auth } from '../config/Firebase';
 
 import { GiftedChat, Bubble, SystemMessage } from 'react-native-gifted-chat';
 
-import { setUsuario } from '../pages/Login'
-import { NavigationContainer } from '@react-navigation/native';
-
 import { AntDesign } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 function Chat({ navigation }) {
-0
-    useLayoutEffect(()=>{
-        navigation.setOptions({
-            headerRight: () => (
-                <TouchableOpacity onPress={signOut}>
-                <AntDesign name="logout" size={24} color="black"/>
-                </TouchableOpacity>
-            )
-        }) 
-    }, [])
-
-    const signOut = () => {
-        auth.signOut().then(()=>{
-            navigation.replace('Login')
-        }).catch((error)=>{
-
-        });
-    }
 
     const [messages, setMessages] = useState([]);
 
@@ -60,19 +39,41 @@ function Chat({ navigation }) {
 
     },[])
 
-    var user = setUsuario;
+    const signOut = () => {
+        auth.signOut().then(()=>{
+            navigation.replace('Login')
+        }).catch((error)=>{
 
-    return (
-        <GiftedChat
-        messages={messages}
-        onSend={messages => onSend(messages)}
-        user={{
-            _id: user.id,
-            name: user.nome,
-        }}
-        />
+        });
+    }
+    
+    function renderBubble (props) {
+        return (
+          <Bubble
+            {...props}
+            wrapperStyle={{
+              left:{
+                backgroundColor: 'white'
+              },
+              right: {
+                backgroundColor: 'green'
+              }
+            }}
+          />
+        )
+      }
+
+    return ( 
+          <GiftedChat
+            renderBubble={renderBubble}
+            messages={messages}
+            onSend={messages => onSend(messages)}
+            user={{
+              _id: auth?.currentUser?.email,
+              name: auth?.currentUser?.displayName,
+             }}
+           />
     )
-
 }
 
 Chat.navigationOptions = {
@@ -80,5 +81,4 @@ Chat.navigationOptions = {
     title: 'Chat',
 
 };
-
 export default Chat;

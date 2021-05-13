@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
-import firebase, {database} from '../config/Firebase';
+import { auth } from '../config/Firebase';
 
 export default function Cadastro({ navigation }) {
 
@@ -9,19 +9,21 @@ export default function Cadastro({ navigation }) {
     const [senha, setSenha] = useState('');
 
     async function cadastrar() {
-
-        await firebase.auth().createUserWithEmailAndPassword(email, senha)
-            .then(() => {
-                Alert.alert('Cadastrado com Sucesso!')
-                database.collection("usuarios").add({ nome, email })
+        auth.createUserWithEmailAndPassword(email, senha)
+            .then((userCredential) => {
+               var user = userCredential.user;
+               user.updateProfile({
+                   displayName: nome
+               }).then(() =>{
                 navigation.navigate('Login');
+                Alert.alert("Cadastrado com sucesso!");
+               }).catch((error) =>{
+                    console.log(error.message)
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    Alert.alert("Ops!", errorMessage);
+               });
             })
-            .catch((error) => {
-                console.log(error.message)
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                Alert.alert("Ops!", errorMessage);
-            });
     }
 
     return (

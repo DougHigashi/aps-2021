@@ -1,40 +1,24 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Alert, Image, LogBox } from 'react-native';
-import firebase, { database } from '../config/Firebase';
+import { auth } from '../config/Firebase';
 
 export var setUsuario;
-export default function App({ navigation }) {
+export default function Login({ navigation }) {
 
-    const [usuarios, setUsuarios] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    useEffect(() => {
-        database.collection("usuarios").onSnapshot((query) => {
-            const list = [];
-            query.forEach((doc) => {
-                list.push({ ...doc.data(), id: doc.id });
-            })
-            setUsuarios(list);
-        });
-    }, [])
-
-    function getUsuario() {
-        usuarios.forEach((usuario) => {
-            if (usuario.email == email) {
-                setUsuario = usuario;
-            }
-        })
-    }
+    useEffect(()=>{
+    },[])
 
     function authentication() {
 
-        firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(() => {
-                getUsuario();
-                navigation.navigate('Tabs');
-            }).catch((error) => {
+        auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+             navigation.navigate('Tabs');
+            })
+            .catch((error) => {
                 console.log(error)
                 Alert.alert("Ops!", error.message);
             });

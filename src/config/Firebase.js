@@ -17,7 +17,13 @@ import "firebase/firestore";
     measurementId: "G-QPF2V77QKL"
 };
 
-firebase.initializeApp(firebaseConfig);
+let app;
+
+if(firebase.apps.length === 0){
+   app= firebase.initializeApp(firebaseConfig);
+}else{
+    app = firebase.app()
+}
 
 export default firebase;
 export const auth = firebase.auth()

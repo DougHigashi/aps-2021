@@ -1,58 +1,89 @@
-import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import firebase from 'firebase';
 
-export default function Chat({ navigation }) {
+import React, { useState, useEffect, useCallback } from 'react';
+import { database, auth } from '../config/Firebase';
 
-    
-    function logOut(){
-        firebase.auth().signOut()
-        .then(
-            ()=>navigation.navigate('Login')
-          ).catch((error) => {
-            alert('Ocorreu um erro');
-          });
-    }
+import { GiftedChat, Bubble } from 'react-native-gifted-chat';
+import { Alert } from 'react-native';
 
+
+function Chat({ navigation }) {
+
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    navigation.addListener('beforeRemove', (e) => {           //Adicionamos um listener pra ação de voltar
+
+      e.preventDefault();                                     //Quando a ação é detectada, essa linha bloqueia a ação
+
+      //E mostramos o alert abaixo.
+      Alert.alert('Logout', 'Deseja realizar logout da sua conta?', [
+        {
+          text: 'Cancelar',
+        },
+        {
+          text: 'Ok',
+          onPress: () => { navigation.dispatch(e.data.action); auth.signOut().then(() => { navigation.navigate('Login') }) }
+          //Depois de clicar em Ok ele libera a ação de voltar
+          //e realiza o logout
+        }
+      ])
+    });
+
+    database.collection('groupChat').orderBy('createdAt', 'desc')
+      .onSnapshot(snapshot => setMessages(
+        snapshot.docs.map(doc => ({
+          _id: doc.data()._id,
+          text: doc.data().text,
+          createdAt: doc.data().createdAt.toDate(),
+          user: doc.data().user
+        }))
+      ))
+  }, [])
+
+  const onSend = useCallback((messages = []) => {
+    setMessages(previousMessage => GiftedChat.append(previousMessage, messages))
+    const {
+      id,
+      createdAt,
+      text,
+      user
+    } = messages[0]
+    database.collection('groupChat').add(messages[0])
+
+  }, [])
+
+  function renderBubble(props) {
     return (
-        <View style={styles.container}>
-            <Text style={styles.logo}>Iniciar Chat</Text>
-            
-            <TouchableOpacity onPress={()=>{logOut()}} style={styles.loginBtn}>
-                <Text style={styles.loginText}>Deslogar</Text>
-            </TouchableOpacity>
+      <Bubble
+        {...props}
+        wrapperStyle={{
+          left: {
+            backgroundColor: 'white'
+          },
+          right: {
+            backgroundColor: 'green'
+          }
+        }}
+      />
+    )
+  }
 
-        </View >
-    );
+  return (
+    <GiftedChat
+      renderBubble={renderBubble}
+      messages={messages}
+      onSend={messages => onSend(messages)}
+      user={{
+        _id: auth?.currentUser?.email,
+        name: auth?.currentUser?.displayName,
+      }}
+    />
+  )
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#003f5c',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
+Chat.navigationOptions = {
 
-    logo: {
-        fontWeight: 'bold',
-        fontSize: 30,
-        marginBottom: 40,
-        color: "#fb5b5a",
-    },
+  title: 'Chat',
 
-    loginBtn: {
-        width: '70%',
-        backgroundColor: '#fb5b5a',
-        height: 50,
-        marginTop: 40,
-        marginBottom: 20,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 25
-    },
-
-    loginText: {
-        color: 'white'
-    }
-});
+};
+export default Chat;

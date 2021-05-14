@@ -1,45 +1,38 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
-import { auth } from '../config/Firebase';
+import firebase from '../config/Firebase';
 
-export default function Cadastro({ navigation }) {
+export default function Esqueci({ navigation }) {
 
-    const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
 
-    async function cadastrar() {
-        auth.createUserWithEmailAndPassword(email, senha)
-            .then((userCredential) => {
-                let user = userCredential.user;
-                user.updateProfile({
-                    displayName: nome
-                }).then(() => {
-                    navigation.navigate('Login');
-                    Alert.alert('Cadastrado com sucesso!', 'Sua conta foi criada com sucesso!');
-                }).catch((error) => {
-                    console.log(error.message)
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    Alert.alert("Ops!", errorMessage);
-                });
+    async function confirma() {
+
+        await firebase.auth().sendPasswordResetEmail(email)
+            .then(() => {
+                Alert.alert('Email enviado!');
             })
+            .catch((error) => {
+                console.log(error.message)
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                Alert.alert("Ops!", errorMessage);
+            });
     }
 
     return (
         <View style={styles.container}>
-            <Text style={styles.logo}>Cadastre-se</Text>
-            <TextInput placeholder="Nome" style={styles.input} onChangeText={nome => setNome(nome)} value={nome} />
+             <Text style={styles.logo}>Redefinir senha</Text>
             <TextInput placeholder="Email" style={styles.input} onChangeText={email => setEmail(email)} value={email} />
-            <TextInput placeholder="Senha" style={styles.input} secureTextEntry={true} onChangeText={senha => setSenha(senha)} value={senha} />
-
-            <TouchableOpacity onPress={() => { cadastrar() }} style={styles.botao}>
-                <Text style={styles.loginText}>Salvar</Text>
+           
+            <TouchableOpacity onPress={() => { confirma() }} style={styles.botao}>
+                <Text style={styles.loginText}>Enviar email para redefinir</Text>
             </TouchableOpacity>
 
             <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                 <Text style={styles.voltar}>Voltar</Text>
             </TouchableOpacity>
+
         </View>
     );
 }
@@ -51,9 +44,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    loginText: {
-        color: 'white'
-    },
     voltar: {
         color: '#308C30',
     },
@@ -62,6 +52,9 @@ const styles = StyleSheet.create({
         fontSize: 30,
         marginBottom: 40,
         color: "#308C30",
+    },
+    loginText: {
+        color: 'white'
     },
     botao: {
         color: 'white',

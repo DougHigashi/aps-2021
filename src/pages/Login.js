@@ -1,19 +1,24 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
-import firebase from '../config/Firebase';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Alert, Image } from 'react-native';
+import { auth } from '../config/Firebase';
 
-export default function App({ navigation }) {
+export var setUsuario;
+export default function Login({ navigation }) {
 
-    const [login, setLogin] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    useEffect(() => {
+    }, [])
 
     function authentication() {
 
-        firebase.auth().signInWithEmailAndPassword(login, password)
-            .then(() => navigation.navigate('Chat')
-            ).catch((error) => {
+        auth.signInWithEmailAndPassword(email, password)
+            .then(() => {
+                navigation.navigate('Tabs');
+            })
+            .catch((error) => {
                 console.log(error)
                 Alert.alert("Ops!", error.message);
             });
@@ -21,8 +26,8 @@ export default function App({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.logo}>Faça Login</Text>
-            <TextInput placeholder="Login" style={styles.input} onChangeText={login => setLogin(login)} value={login} />
+            <Image source={require('../assets/logo.png')} style={styles.logo} />
+            <TextInput placeholder="Email" style={styles.input} onChangeText={email => setEmail(email)} value={email} />
             <TextInput placeholder="Senha" style={styles.input} secureTextEntry={true} onChangeText={password => setPassword(password)} value={password} />
 
             <TouchableOpacity onPress={() => { authentication() }} style={styles.loginBtn}>
@@ -33,7 +38,9 @@ export default function App({ navigation }) {
                 <Text style={styles.esqueciSenha}>Se cadastrar</Text>
             </TouchableOpacity>
 
-
+            <TouchableOpacity onPress={() => navigation.navigate('Esqueci')}>
+                <Text style={styles.esqueciSenha}>Esqueci minha senha</Text>
+            </TouchableOpacity>
             <StatusBar style="auto" />
         </View >
     );
@@ -42,31 +49,30 @@ export default function App({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#003f5c',
+        backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
     },
     logo: {
-        fontWeight: 'bold',
-        fontSize: 30,
-        marginBottom: 40,
-        color: "#fb5b5a",
+        width: 270,
+        height: 115,
+        resizeMode: 'stretch',
     },
     input: {
         width: '70%',
         marginBottom: 20,
         padding: 10,
         height: 50,
-        backgroundColor: '#465881',
+        backgroundColor: '#F7F7F7',
         borderRadius: 25,
         justifyContent: 'center',
     },
     esqueciSenha: {
-        color: 'white',
+        color: '#308C30',
     },
     loginBtn: {
         width: '70%',
-        backgroundColor: '#fb5b5a',
+        backgroundColor: '#308C30',
         height: 50,
         marginTop: 40,
         marginBottom: 20,

@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, Alert, Image, LogBox } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Alert, Image } from 'react-native';
 import { auth } from '../config/Firebase';
 
 export var setUsuario;
@@ -9,14 +9,14 @@ export default function Login({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    useEffect(()=>{
-    },[])
+    useEffect(() => {
+    }, [])
 
     function authentication() {
 
         auth.signInWithEmailAndPassword(email, password)
-        .then(() => {
-             navigation.navigate('Tabs');
+            .then(() => {
+                navigation.navigate('Tabs');
             })
             .catch((error) => {
                 console.log(error)

@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, Button } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 
 import Map from '../components/Map'
 

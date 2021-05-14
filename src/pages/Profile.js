@@ -1,55 +1,63 @@
 import React from 'react';
-import { StyleSheet, View , Text, Image, TouchableOpacity, Alert } from 'react-native'
+import { StyleSheet, View, Text, Image, TouchableOpacity, Alert } from 'react-native'
 import { auth } from '../config/Firebase';
 
-function Profile({ navigation }){
+function Profile({ navigation }) {
 
-    const email =  auth?.currentUser?.email;
+    const email = auth?.currentUser?.email;
     const nome = auth?.currentUser?.displayName;
- 
 
 
-    const signOut = () => {
-        auth.signOut().then(()=>{
-            navigation.replace('Login')
-        }).catch((error)=>{
 
-        });
+    const logOut = () => {
+        Alert.alert('Logout', 'Deseja realizar logout da sua conta?', [
+            {
+                text: 'Cancelar',
+            },
+            {
+                text: 'Ok',
+                onPress: () => { auth.signOut().then(() => { navigation.navigate('Login'); }); }
+            }
+        ])
     }
 
-    function deletar() {
+
+
+
+
+    const deletar = () => {
         Alert.alert(
             "Deletar",
             "Tem certeza que deseja deletar o usuario?",
             [
-              {
-                text: "Não",
-              },
-              {
-                text: "Sim",
-                onPress: () => {
-                    var user = auth?.currentUser;
-                     user.delete()
-                    .then(() => {
-                         Alert.alert('Deletado com sucesso')
-                        navigation.replace('Login')
-                     })
-                     .catch((error) => {
-                         Alert.alert('Ops!', error)
-                    });
+                {
+                    text: "Não",
                 },
-              },
+                {
+                    text: "Sim",
+                    onPress: () => {
+                        let user = auth?.currentUser;
+                        user.delete()
+                            .then(() => {
+                                Alert.alert('Deletado com sucesso')
+                                navigation.replace('Login')
+                            })
+                            .catch((error) => {
+                                Alert.alert('Ops!', error)
+                            });
+                    },
+                },
             ]
-          )
+        )
     }
 
-    return(
+    return (
         <View style={styles.container}>
             <Image source={require('../assets/usuario.png')} style={styles.usuario} />
             <Text style={styles.texto}>Nome: {nome}</Text>
             <Text style={styles.texto}>Email: {email}</Text>
 
-            <TouchableOpacity onPress={() => { signOut() }} style={styles.botao}>
+            <TouchableOpacity onPress={() => { logOut() }} style={styles.botao}>
                 <Text style={styles.textobtn}>Sair</Text>
             </TouchableOpacity>
 
@@ -76,7 +84,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 15,
     },
-    textobtn:{
+    textobtn: {
         color: 'white'
     },
     botao: {

@@ -11,25 +11,25 @@ export default function Cadastro({ navigation }) {
     async function cadastrar() {
         auth.createUserWithEmailAndPassword(email, senha)
             .then((userCredential) => {
-               var user = userCredential.user;
-               user.updateProfile({
-                   displayName: nome
-               }).then(() =>{
-                navigation.navigate('Login');
-                Alert.alert("Cadastrado com sucesso!");
-               }).catch((error) =>{
+                let user = userCredential.user;
+                user.updateProfile({
+                    displayName: nome
+                }).then(() => {
+                    navigation.navigate('Login');
+                    Alert.alert('Cadastrado com sucesso!', 'Sua conta foi criada com sucesso!');
+                }).catch((error) => {
                     console.log(error.message)
                     const errorCode = error.code;
                     const errorMessage = error.message;
                     Alert.alert("Ops!", errorMessage);
-               });
+                });
             })
     }
 
     return (
         <View style={styles.container}>
-             <Text style={styles.logo}>Cadastre-se</Text>
-             <TextInput placeholder="Nome" style={styles.input} onChangeText={nome => setNome(nome)} value={nome} />
+            <Text style={styles.logo}>Cadastre-se</Text>
+            <TextInput placeholder="Nome" style={styles.input} onChangeText={nome => setNome(nome)} value={nome} />
             <TextInput placeholder="Email" style={styles.input} onChangeText={email => setEmail(email)} value={email} />
             <TextInput placeholder="Senha" style={styles.input} secureTextEntry={true} onChangeText={senha => setSenha(senha)} value={senha} />
 

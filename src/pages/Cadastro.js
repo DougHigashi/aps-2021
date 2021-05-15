@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
-import { auth } from '../config/Firebase';
+import { auth, database } from '../config/Firebase';
 
 export default function Cadastro({ navigation }) {
 
@@ -24,6 +24,7 @@ export default function Cadastro({ navigation }) {
                     Alert.alert("Ops!", errorMessage);
                 });
             })
+            database.collection('usuarios').add({nome})
     }
 
     return (

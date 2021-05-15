@@ -1,8 +1,8 @@
 import React, { useState, useEffect}  from 'react';
 import { StyleSheet, View, Text, Image,  FlatList } from 'react-native'
-import { database, auth } from '../config/Firebase';
+import { database, } from '../config/Firebase';
 
-function Participantes({ navigation }) {
+function Participantes() {
 
     const [nomes, setNome] = useState('');
 
@@ -14,16 +14,8 @@ function Participantes({ navigation }) {
             })
             setNome(list);
         });
-        console.log(nomes)
     }, [])
 
-    function getNomes(){
-        return(
-            nomes.forEach((nome) => {
-                <Text>{nome.nome}</Text>
-            })
-        )
-    }
     return(
         <View style={styles.container}>
             <Image source={require('../assets/participantes.png')} style={styles.imagem}/>
@@ -39,6 +31,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white',
+        paddingTop: 22
     },
     texto: {
         fontWeight: 'bold',
@@ -52,7 +45,7 @@ const styles = StyleSheet.create({
     }, 
     item: {
         padding: 10,
-        fontSize: 18,
+        fontSize: 15,
         height: 44,
       },
     logo: {

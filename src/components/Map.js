@@ -1,11 +1,12 @@
 import React from 'react'
 import MapView, { Marker } from 'react-native-maps'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { useState, useEffect } from 'react'
 
 import * as Location from 'expo-location';
 
 export default function Map() {
+
     Location.requestPermissionsAsync()
 
     let isMounted = false;
@@ -27,7 +28,7 @@ export default function Map() {
                         longitude: posicao.coords.longitude,
                         latitudeDelta: 0.014,
                         longitudeDelta: 0.014
-                    })
+                    });
                 }
             }
 
@@ -48,7 +49,6 @@ export default function Map() {
                 latitude: location.latitude,
                 longitude: location.longitude
             }}
-                image={require('../assets/marker.png')}
                 title="Você"
                 description="você está aqui :)"></Marker>
         </MapView>

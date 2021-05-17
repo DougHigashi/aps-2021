@@ -5,7 +5,7 @@ import { LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator  } from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -17,13 +17,14 @@ import Chat from './src/pages/Chat'
 import Profile from './src/pages/Profile'
 import Participantes from './src/pages/Participantes'
 
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 LogBox.ignoreLogs(['Setting a timer']);
 
 const DrawerS = () => {
-  return(
+  return (
     <Drawer.Navigator>
       <Drawer.Screen name="Chat" component={Chat} />
       <Drawer.Screen name="Participantes" component={Participantes} />
@@ -35,19 +36,22 @@ const Tabs = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
+        tabBarIcon: ({ color, size }) => {
           let iconName;
 
-          if (route.name === 'Location') {
-            iconName = focused
-              ? 'map-outline'
-              : 'map-outline';
-          } else if (route.name === 'Chat') {
-            iconName = focused ? 'chatbox-ellipses-outline' : 'chatbox-ellipses-outline';
+          switch (route.name) {
+            case 'Location':
+              iconName = 'map-outline';
+              break;
+            case 'Chat':
+              iconName = 'chatbox-ellipses-outline';
+              break;
+            case 'Profile':
+              iconName = 'person';
+              break;
+
           }
-          else if (route.name === 'Profile') {
-          iconName = focused ? 'person' : 'person';
-        }
+
           return <Ionicons name={iconName} size={size} color={color} />;
         },
       })}
@@ -65,13 +69,14 @@ const Tabs = () => {
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName='Login'>
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="Esqueci" component={Esqueci} options={{ headerShown: false }} />
         <Stack.Screen name="Cadastro" component={Cadastro} options={{ headerShown: false }} />
         <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer >
+
   );
 }
 

@@ -6,6 +6,7 @@ import { GiftedChat, Bubble } from 'react-native-gifted-chat';
 import { Alert } from 'react-native';
 
 
+
 function Chat({ navigation }) {
 
   const [messages, setMessages] = useState([]);
@@ -52,6 +53,8 @@ function Chat({ navigation }) {
 
   }, [])
 
+
+
   function renderBubble(props) {
     return (
       <Bubble
@@ -80,6 +83,8 @@ function Chat({ navigation }) {
     />
   )
 }
+
+
 
 Chat.navigationOptions = {
 

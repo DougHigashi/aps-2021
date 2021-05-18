@@ -23,6 +23,7 @@ export default function Map() {
 
     useEffect(() => {
         isMounted = true;
+        console.log('mounting map');
         if (isMounted) {
             navigator.geolocation.getCurrentPosition(
                 posicao => {
@@ -32,15 +33,10 @@ export default function Map() {
                         latitudeDelta: 0.014,
                         longitudeDelta: 0.014
                     });
-                    console.log(`${posicao.coords.latitude} ${posicao.coords.longitude}`);
-                    console.log('chegou aqui 1');
                     setCoordinate({
                         latitude: posicao.coords.latitude,
                         longitude: posicao.coords.longitude
                     });
-                    console.log('chegou aqui 2');
-                    console.log(coordinate.latitude);
-                    console.log('chegou aqui 3');
                 }
 
             );

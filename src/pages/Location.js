@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, Alert } from 'react-native';
 
 import Clipboard from 'expo-clipboard';
 import Map from '../components/Map'
@@ -13,6 +13,7 @@ export default function Location({ navigation }) {
 
     const sendLocation = () => {
         Clipboard.setString(`Estou na latitude ${coordinate.latitude} e longitude ${coordinate.longitude}`);
+        Alert.alert('Copiado', 'Sua localização foi copiada para a área de transferência!');
         navigation.navigate('Chat');
     }
 

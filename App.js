@@ -8,7 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
-
+import CoordinateProvider from './src/contexts/Coordinate'
 import Login from './src/pages/Login'
 import Location from './src/pages/Location'
 import Cadastro from './src/pages/Cadastro'
@@ -63,19 +63,23 @@ const Tabs = () => {
       <Tab.Screen name="Location" component={Location} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
+
   );
 }
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName='Login'>
-        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-        <Stack.Screen name="Esqueci" component={Esqueci} options={{ headerShown: false }} />
-        <Stack.Screen name="Cadastro" component={Cadastro} options={{ headerShown: false }} />
-        <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
-      </Stack.Navigator>
-    </NavigationContainer >
+    <CoordinateProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName='Login'>
+          <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+          <Stack.Screen name="Esqueci" component={Esqueci} options={{ headerShown: false }} />
+          <Stack.Screen name="Cadastro" component={Cadastro} options={{ headerShown: false }} />
+          <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
+        </Stack.Navigator>
+      </NavigationContainer >
+    </CoordinateProvider>
+
 
   );
 }

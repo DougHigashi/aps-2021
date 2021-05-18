@@ -14,7 +14,7 @@ function Chat({ navigation }) {
 
   useEffect(() => {
     isMounted = true;
-
+    console.log('mounting chat');
     navigation.addListener('beforeRemove', (e) => {           //Adicionamos um listener pra ação de voltar
 
       e.preventDefault();                                     //Quando a ação é detectada, essa linha bloqueia a ação
@@ -42,7 +42,7 @@ function Chat({ navigation }) {
             user: doc.data().user
           }))
         ))
-      return () => { isMounted = false; }
+      return () => { console.log('unmounting chat'); isMounted = false; }
     }
 
   }, [])

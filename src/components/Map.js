@@ -3,9 +3,12 @@ import MapView, { Marker } from 'react-native-maps'
 import { StyleSheet } from 'react-native'
 import { useState, useEffect } from 'react'
 
+import { useCoord } from '../contexts/Coordinate'
+
 import * as Location from 'expo-location';
 
 export default function Map() {
+    const { coordinate, setCoordinate } = useCoord();
 
     Location.requestPermissionsAsync()
 
@@ -20,20 +23,30 @@ export default function Map() {
 
     useEffect(() => {
         isMounted = true;
-        navigator.geolocation.getCurrentPosition(
-            posicao => {
-                if (isMounted) {
+        if (isMounted) {
+            navigator.geolocation.getCurrentPosition(
+                posicao => {
                     setLocation({
                         latitude: posicao.coords.latitude,
                         longitude: posicao.coords.longitude,
                         latitudeDelta: 0.014,
                         longitudeDelta: 0.014
                     });
+                    console.log(`${posicao.coords.latitude} ${posicao.coords.longitude}`);
+                    console.log('chegou aqui 1');
+                    setCoordinate({
+                        latitude: posicao.coords.latitude,
+                        longitude: posicao.coords.longitude
+                    });
+                    console.log('chegou aqui 2');
+                    console.log(coordinate.latitude);
+                    console.log('chegou aqui 3');
                 }
-            }
 
-        );
-        return () => { isMounted = false };
+            );
+        }
+
+        return () => { console.log('ummounting map'); isMounted = false };
     }, []
     );
 

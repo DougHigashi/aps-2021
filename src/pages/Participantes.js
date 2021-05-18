@@ -9,6 +9,7 @@ function Participantes() {
 
     useEffect(() => {
         isMounted = true;
+        console.log('mounting participants')
         if (isMounted) {
             database.collection("usuarios").onSnapshot((query) => {
                 const list = [];
@@ -19,7 +20,7 @@ function Participantes() {
             });
 
         }
-        return () => { isMounted = false; }
+        return () => { console.log('ummounting participants'); isMounted = false; }
     }, [])
 
     return (

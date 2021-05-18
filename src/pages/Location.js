@@ -2,18 +2,26 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 
-
+import Clipboard from 'expo-clipboard';
 import Map from '../components/Map'
+
+import { useCoord } from '../contexts/Coordinate'
 
 
 export default function Location({ navigation }) {
+    const { coordinate } = useCoord();
+
+    const sendLocation = () => {
+        Clipboard.setString(`Estou na latitude ${coordinate.latitude} e longitude ${coordinate.longitude}`);
+        navigation.navigate('Chat');
+    }
 
     return (
         <View style={styles.container}>
             <Map />
 
-            <TouchableOpacity style={styles.alignBottom} onPress={() => { navigation.navigate('Chat') }}>
-                <Text style={styles.button}>Enviar Localização</Text>
+            <TouchableOpacity style={styles.alignBottom} onPress={() => { sendLocation() }}>
+                <Text style={styles.button}>Copiar Localização</Text>
             </TouchableOpacity>
 
             <StatusBar style='auto' />

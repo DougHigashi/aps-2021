@@ -1,29 +1,35 @@
-import React, { useState, useEffect}  from 'react';
-import { StyleSheet, View, Text, Image,  FlatList } from 'react-native'
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, Image, FlatList } from 'react-native'
 import { database, } from '../config/Firebase';
 
 function Participantes() {
 
     const [nomes, setNome] = useState('');
+    let isMounted;
 
     useEffect(() => {
-        database.collection("usuarios").onSnapshot((query) => {
-            const list = [];
-            query.forEach((doc) => {
-                list.push({ ...doc.data(), id: doc.id });
-            })
-            setNome(list);
-        });
+        isMounted = true;
+        if (isMounted) {
+            database.collection("usuarios").onSnapshot((query) => {
+                const list = [];
+                query.forEach((doc) => {
+                    list.push({ ...doc.data(), id: doc.id });
+                })
+                setNome(list);
+            });
+
+        }
+        return () => { isMounted = false; }
     }, [])
 
-    return(
+    return (
         <View style={styles.container}>
-            <Image source={require('../assets/participantes.png')} style={styles.imagem}/>
+            <Image source={require('../assets/participantes.png')} style={styles.imagem} />
             <Text style={styles.logo}>Participantes:</Text>
             <FlatList
-          data={nomes}
-          renderItem={({item}) => <Text style={styles.item}>{item.nome}</Text>}
-        />
+                data={nomes}
+                renderItem={({ item }) => <Text style={styles.item}>{item.nome}</Text>}
+            />
         </View>
     )
 }
@@ -38,16 +44,16 @@ const styles = StyleSheet.create({
         fontSize: 15,
     },
     imagem: {
-        top:70,
+        top: 70,
         width: 90,
         height: 90,
         resizeMode: 'stretch',
-    }, 
+    },
     item: {
         padding: 10,
         fontSize: 15,
         height: 44,
-      },
+    },
     logo: {
         top: 0,
         left: 85,

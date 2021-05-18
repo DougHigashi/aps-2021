@@ -21,10 +21,6 @@ function Profile({ navigation }) {
         ])
     }
 
-
-
-
-
     const deletar = () => {
         Alert.alert(
             "Deletar",
@@ -65,7 +61,7 @@ function Profile({ navigation }) {
                 <Text style={styles.textobtn}>Deletar Conta</Text>
             </TouchableOpacity>
 
-        </View>
+        </View >
     )
 }
 const styles = StyleSheet.create({

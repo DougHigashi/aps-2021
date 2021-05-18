@@ -9,7 +9,7 @@ export default function Map() {
 
     Location.requestPermissionsAsync()
 
-    let isMounted = false;
+    let isMounted;
 
     const [location, setLocation] = useState({
         latitude: 37.78825,
@@ -34,8 +34,6 @@ export default function Map() {
 
         );
         return () => { isMounted = false };
-
-
     }, []
     );
 

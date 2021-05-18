@@ -9,13 +9,13 @@ export default function Login({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    useEffect(() => {
-    }, [])
 
     function authentication() {
 
         auth.signInWithEmailAndPassword(email, password)
             .then(() => {
+                setEmail('');
+                setPassword('');
                 navigation.navigate('Tabs');
             })
             .catch((error) => {

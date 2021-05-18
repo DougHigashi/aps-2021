@@ -11,20 +11,28 @@ export default function Cadastro({ navigation }) {
     async function cadastrar() {
         auth.createUserWithEmailAndPassword(email, senha)
             .then((userCredential) => {
-                let user = userCredential.user;
+                const user = userCredential.user;
                 user.updateProfile({
                     displayName: nome
                 }).then(() => {
                     navigation.navigate('Login');
                     Alert.alert('Cadastrado com sucesso!', 'Sua conta foi criada com sucesso!');
                 }).catch((error) => {
-                    console.log(error.message)
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    Alert.alert("Ops!", errorMessage);
+                    Alert.alert("Ops!", error.Message);
                 });
+            }).catch((error) => {
+                switch (error.code) {
+                    case 'auth/weak-password':
+                        Alert.alert('Senha curta demais', 'Sua senha deve conter 6 caracteres ou mais.');
+                        break;
+                    case 'auth/invalid-email':
+                        Alert.alert('Email inválido', 'Por favor informe um endereço de email válido.');
+                        break;
+                    default:
+                        Alert.alert('Ops!', error.message);
+                }
             })
-            database.collection('usuarios').add({nome})
+        database.collection('usuarios').add({ nome })
     }
 
     return (

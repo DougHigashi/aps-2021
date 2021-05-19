@@ -6,11 +6,15 @@ import { GiftedChat, Bubble } from 'react-native-gifted-chat';
 import { Alert } from 'react-native';
 
 
+
 function Chat({ navigation }) {
 
   const [messages, setMessages] = useState([]);
+  let isMounted;
 
   useEffect(() => {
+    isMounted = true;
+    console.log('mounting chat');
     navigation.addListener('beforeRemove', (e) => {           //Adicionamos um listener pra ação de voltar
 
       e.preventDefault();                                     //Quando a ação é detectada, essa linha bloqueia a ação
@@ -28,16 +32,19 @@ function Chat({ navigation }) {
         }
       ])
     });
+    if (isMounted) {
+      database.collection('groupChat').orderBy('createdAt', 'desc')
+        .onSnapshot(snapshot => setMessages(
+          snapshot.docs.map(doc => ({
+            _id: doc.data()._id,
+            text: doc.data().text,
+            createdAt: doc.data().createdAt.toDate(),
+            user: doc.data().user
+          }))
+        ))
+      return () => { console.log('unmounting chat'); isMounted = false; }
+    }
 
-    database.collection('groupChat').orderBy('createdAt', 'desc')
-      .onSnapshot(snapshot => setMessages(
-        snapshot.docs.map(doc => ({
-          _id: doc.data()._id,
-          text: doc.data().text,
-          createdAt: doc.data().createdAt.toDate(),
-          user: doc.data().user
-        }))
-      ))
   }, [])
 
   const onSend = useCallback((messages = []) => {
@@ -51,6 +58,8 @@ function Chat({ navigation }) {
     database.collection('groupChat').add(messages[0])
 
   }, [])
+
+
 
   function renderBubble(props) {
     return (
@@ -80,6 +89,8 @@ function Chat({ navigation }) {
     />
   )
 }
+
+
 
 Chat.navigationOptions = {
 

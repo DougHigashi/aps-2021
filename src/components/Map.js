@@ -1,14 +1,18 @@
 import React from 'react'
 import MapView, { Marker } from 'react-native-maps'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { useState, useEffect } from 'react'
+
+import { useCoord } from '../contexts/Coordinate'
 
 import * as Location from 'expo-location';
 
 export default function Map() {
+    const { coordinate, setCoordinate } = useCoord();
+
     Location.requestPermissionsAsync()
 
-    let isMounted = false;
+    let isMounted;
 
     const [location, setLocation] = useState({
         latitude: 37.78825,
@@ -19,22 +23,26 @@ export default function Map() {
 
     useEffect(() => {
         isMounted = true;
-        navigator.geolocation.getCurrentPosition(
-            posicao => {
-                if (isMounted) {
+        console.log('mounting map');
+        if (isMounted) {
+            navigator.geolocation.getCurrentPosition(
+                posicao => {
                     setLocation({
                         latitude: posicao.coords.latitude,
                         longitude: posicao.coords.longitude,
                         latitudeDelta: 0.014,
                         longitudeDelta: 0.014
-                    })
+                    });
+                    setCoordinate({
+                        latitude: posicao.coords.latitude,
+                        longitude: posicao.coords.longitude
+                    });
                 }
-            }
 
-        );
-        return () => { isMounted = false };
+            );
+        }
 
-
+        return () => { console.log('ummounting map'); isMounted = false };
     }, []
     );
 
@@ -48,7 +56,6 @@ export default function Map() {
                 latitude: location.latitude,
                 longitude: location.longitude
             }}
-                image={require('../assets/marker.png')}
                 title="Você"
                 description="você está aqui :)"></Marker>
         </MapView>

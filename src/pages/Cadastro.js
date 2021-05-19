@@ -16,7 +16,12 @@ export default function Cadastro({ navigation }) {
                     displayName: nome
                 }).then(() => {
                     navigation.navigate('Login');
-                    Alert.alert('Cadastrado com sucesso!', 'Sua conta foi criada com sucesso!');
+                    Alert.alert('Cadastrado com sucesso!', 'Sua conta foi criada com sucesso!',[ {
+                        text: "Ok",
+                        onPress: () => {
+                           database.collection('usuarios').add({ nome, email })
+                        } }, ]
+                    );
                 }).catch((error) => {
                     Alert.alert("Ops!", error.Message);
                 });
@@ -32,7 +37,6 @@ export default function Cadastro({ navigation }) {
                         Alert.alert('Ops!', error.message);
                 }
             })
-        database.collection('usuarios').add({ nome })
     }
 
     return (
